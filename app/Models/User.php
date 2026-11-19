@@ -6,8 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -19,8 +22,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'student_id',
         'email',
         'password',
+        'program',
+        'year_level',
+        'role',
+        'status',
+        'wallet_balance',
     ];
 
     /**
@@ -43,6 +52,28 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'year_level' => 'integer',
+            'wallet_balance' => 'integer',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return in_array($this->role, ['super_admin', 'admin']);
+    }
+
+    public function surveys(): HasMany
+    {
+        return $this->hasMany(Survey::class);
+    }
+
+    public function responses(): HasMany
+    {
+        return $this->hasMany(Response::class);
+    }
+
+    public function walletTransactions(): HasMany
+    {
+        return $this->hasMany(WalletTransaction::class);
     }
 }
