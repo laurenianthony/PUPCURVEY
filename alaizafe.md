@@ -72,6 +72,7 @@ Serialize the form builder state into `schema_json` using this exact structure:
     }
   ]
 }
+```
 
 Supported `type` values parsed by `ResponseController`:
 - **Choice types** (`"options": [...]`): `multiple_choice`, `checkboxes`, `dropdown`
@@ -89,6 +90,7 @@ Key the JSON object by each question's `id` and serialize into `answers_json`:
   "q_4": { "Row 1": "Column A", "Row 2": "Column B" },
   "q_5": "Short text answer"
 }
+```
 
 ## 5. Global Flash Messages & Validation Errors
 Display these in `resources/views/layouts/app.blade.php`:
