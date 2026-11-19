@@ -89,7 +89,7 @@ class PendingUserResource extends Resource
     {
         return parent::getEloquentQuery()
             ->where('status', 'pending')
-            ->where('role', 'user');
+            ->whereIn('role', ['user', 'student']);
     }
 
     public static function canCreate(): bool
